@@ -14,8 +14,8 @@ preprint_url: "https://openknowledge.worldbank.org/entities/publication/d9d58269
 abstract: "his paper evaluates whether mangroves can mitigate the impact of hurricanes on economic activity. The paper assembles a regionwide panel dataset that measures local economic activity using nightlights, potential hurricane damages using a detailed wind field model, and mangrove protection by mapping the width of mangrove forests on the path to the coast. The results show that hurricanes have negative short-run effects on economic activity, with losses likely concentrated in coastal lowlands that are exposed to both wind and storm surge hazards. In these coastal lowlands, the estimates show that nightlights decrease by up to 24% in areas that are unprotected by mangroves. By comparison, the impact of the hurricanes observed in the sample is fully mitigated in areas protected by mangrove belts of 1 km or more."
 image: "mangroves.jpg"
 featured: true
-audio_en: "Mangroves_english.mp3"
-audio_es: "Mangroves_espanol.mp3"
+audio_es: "Mangroves_english.mp3"
+audio_en: "Mangroves_espanol.mp3"
 topics:
   - Natural Disasters
   - Climate Adaptation
