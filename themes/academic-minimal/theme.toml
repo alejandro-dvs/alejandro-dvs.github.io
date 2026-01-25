@@ -1,0 +1,10 @@
+# Theme metadata
+name = "Academic Minimal"
+license = "MIT"
+licenselink = "https://github.com/alejandro-dvs/academic-minimal/blob/main/LICENSE"
+description = "A refined, editorial academic theme for Hugo"
+homepage = "https://github.com/alejandro-dvs/academic-minimal"
+min_version = "0.112.0"
+
+[author]
+  name = "Alejandro del Valle"

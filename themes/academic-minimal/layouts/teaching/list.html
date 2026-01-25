@@ -1,0 +1,42 @@
+{{ define "main" }}
+<section class="page-section teaching-section">
+  <div class="section-inner">
+    <header class="section-header">
+      <h1 class="section-title">Teaching</h1>
+      <p class="section-subtitle">Current courses at Georgia State University</p>
+    </header>
+
+    <div class="teaching-list">
+      {{ range sort .Pages ".Params.order" }}
+      <article class="course-card">
+        {{ with .Params.image }}
+          {{ $imgPath := printf "images/teaching/%s" . }}
+          {{ with resources.Get $imgPath }}
+            {{ $webp := .Resize "600x webp q85" }}
+            {{ $fallback := .Resize "600x q85" }}
+        <div class="course-image">
+          <picture>
+            <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+            <img src="{{ $fallback.RelPermalink }}" alt="{{ $.Title }}" loading="lazy">
+          </picture>
+        </div>
+          {{ end }}
+        {{ end }}
+        <div class="course-body">
+          <div class="course-level">{{ .Params.level }}</div>
+          <div class="course-content">
+            <h3>{{ .Title }}</h3>
+            <p class="course-code">{{ .Params.code }}</p>
+            <p class="course-description">{{ .Params.description }}</p>
+          </div>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+
+    <p style="margin-top: var(--space-2xl); color: var(--color-text-muted); font-size: var(--text-sm);">
+      Office hours available by appointment via <a href="https://icollege.gsu.edu">iCollege</a>.
+    </p>
+  </div>
+</section>
+{{ end }}

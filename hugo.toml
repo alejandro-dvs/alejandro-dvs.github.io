@@ -1,0 +1,59 @@
+baseURL = "https://alejandro-dvs.github.io/"
+languageCode = "en-us"
+title = "Alejandro del Valle"
+theme = "academic-minimal"
+
+# Disable default RSS, sitemap handled separately
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  description = "Development economist specializing in environmental risks, natural disasters, and climate adaptation"
+  author = "Alejandro del Valle"
+
+  # Contact
+  email = "adelvalle@gsu.edu"
+  office = "35 Broad Street NW, Office 1141, Atlanta, GA 30303"
+
+  # Social links
+  google_scholar = "https://scholar.google.fr/citations?user=J63R7d4AAAAJ"
+  orcid = "https://orcid.org/0000-0001-6614-2675"
+  github = "https://github.com/alejandro-dvs"
+  linkedin = "https://linkedin.com/in/alejandrodvs"
+  bluesky = "https://bsky.app/profile/alejandrodvs.bsky.social"
+  gsu_profile = "https://robinson.gsu.edu/profile/alejandro-del-valle/"
+
+  # CV
+  cv_url = "/files/cv.pdf"
+
+  # Design
+  accent_color = "#1a5f5a"  # Deep teal - environmental theme
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "monokai"
+    lineNos = false
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
+
+[menu]
+  [[menu.main]]
+    name = "About"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Research"
+    url = "/publications/"
+    weight = 2
+  [[menu.main]]
+    name = "Teaching"
+    url = "/teaching/"
+    weight = 3
+  [[menu.main]]
+    name = "CV"
+    url = "/files/cv.pdf"
+    weight = 4

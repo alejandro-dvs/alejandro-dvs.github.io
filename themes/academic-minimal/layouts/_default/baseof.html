@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta name="author" content="{{ .Site.Params.author }}">
+
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+
+  <!-- Fonts: Crimson Pro (serif) + Libre Franklin (sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Libre+Franklin:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  {{ $styles := resources.Get "css/main.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ .Title }}">
+  <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  {{/* Open Graph Image - use publication image, or fallback to headshot */}}
+  {{ $ogImage := "" }}
+  {{ if .Params.image }}
+    {{ $imgPath := printf "images/publications/%s" .Params.image }}
+    {{ with resources.Get $imgPath }}
+      {{ $resized := .Fill "1200x630 Center" }}
+      {{ $ogImage = $resized.Permalink }}
+    {{ end }}
+  {{ else if .Params.image_sequence }}
+    {{ $firstImg := index .Params.image_sequence 0 }}
+    {{ $imgPath := printf "images/publications/%s" $firstImg }}
+    {{ with resources.Get $imgPath }}
+      {{ $resized := .Fill "1200x630 Center" }}
+      {{ $ogImage = $resized.Permalink }}
+    {{ end }}
+  {{ end }}
+  {{ if not $ogImage }}
+    {{ with resources.Get "images/headshot.jpg" }}
+      {{ $resized := .Fill "1200x630 Center" }}
+      {{ $ogImage = $resized.Permalink }}
+    {{ end }}
+  {{ end }}
+  {{ with $ogImage }}
+  <meta property="og:image" content="{{ . }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  {{ end }}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ .Title }}">
+  <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  {{ with $ogImage }}<meta name="twitter:image" content="{{ . }}">{{ end }}
+</head>
+<body>
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  {{ partial "header.html" . }}
+
+  <main id="main">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  {{ partial "footer.html" . }}
+
+  <!-- Image Lightbox -->
+  <div class="lightbox-overlay" id="lightbox">
+    <button class="lightbox-close" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <img class="lightbox-image" id="lightbox-img" src="" alt="">
+  </div>
+
+  <!-- Citation Modal -->
+  <div class="cite-modal-overlay" id="cite-overlay"></div>
+  <div class="cite-modal" id="cite-modal" role="dialog" aria-labelledby="cite-modal-title" aria-modal="true">
+    <div class="cite-modal-header">
+      <h2 class="cite-modal-title" id="cite-modal-title">Cite this paper</h2>
+      <button class="cite-modal-close" id="cite-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="cite-modal-body">
+      <div class="cite-format-tabs" role="tablist">
+        <button class="cite-format-tab is-active" role="tab" aria-selected="true" data-format="bibtex">BibTeX</button>
+        <button class="cite-format-tab" role="tab" aria-selected="false" data-format="apa">APA</button>
+        <button class="cite-format-tab" role="tab" aria-selected="false" data-format="mla">MLA</button>
+        <button class="cite-format-tab" role="tab" aria-selected="false" data-format="chicago">Chicago</button>
+      </div>
+      <div class="cite-content">
+        <pre class="cite-text is-active" id="cite-bibtex"></pre>
+        <pre class="cite-text" id="cite-apa"></pre>
+        <pre class="cite-text" id="cite-mla"></pre>
+        <pre class="cite-text" id="cite-chicago"></pre>
+      </div>
+      <button class="cite-copy-btn" id="cite-copy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span>Copy to clipboard</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Dark Mode Toggle -->
+  <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </button>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  {{ $js := resources.Get "js/main.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}"></script>
+
+  <!-- GoatCounter Analytics (privacy-friendly, no cookies) -->
+  <script data-goatcounter="https://alejandro-dvs.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

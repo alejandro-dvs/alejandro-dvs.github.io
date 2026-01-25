@@ -1,0 +1,160 @@
+<article class="publication-card{{ if and (not .Params.image) (not .Params.image_sequence) }} no-image{{ end }}">
+  {{ if .Params.image_sequence }}
+  <div class="publication-figure publication-slideshow" style="--slide-count: {{ len .Params.image_sequence }};">
+    {{ range $i, $img := .Params.image_sequence }}
+      {{ $imgPath := printf "images/publications/%s" $img }}
+      {{ with resources.Get $imgPath }}
+        {{ $resized := .Resize "800x webp q85" }}
+        {{ $fallback := .Resize "800x q85" }}
+        <picture class="slideshow-image" style="--i: {{ $i }};">
+          <source srcset="{{ $resized.RelPermalink }}" type="image/webp">
+          <img src="{{ $fallback.RelPermalink }}" alt="Figure {{ add $i 1 }} from {{ $.Title }}" loading="{{ if eq $i 0 }}eager{{ else }}lazy{{ end }}">
+        </picture>
+      {{ end }}
+    {{ end }}
+  </div>
+  {{ else if .Params.image }}
+    {{ $imgPath := printf "images/publications/%s" .Params.image }}
+    {{ with resources.Get $imgPath }}
+      {{ $resized := .Resize "800x webp q85" }}
+      {{ $fallback := .Resize "800x q85" }}
+  <div class="publication-figure">
+    <picture>
+      <source srcset="{{ $resized.RelPermalink }}" type="image/webp">
+      <img src="{{ $fallback.RelPermalink }}" alt="Figure from {{ $.Title }}" loading="lazy">
+    </picture>
+  </div>
+    {{ end }}
+  {{ end }}
+
+  <div class="publication-content">
+    <h3 class="publication-title">{{ .Title }}</h3>
+
+    <p class="publication-authors">
+      {{ range $i, $author := .Params.authors }}
+      {{- if $i }}, {{ end -}}
+      {{- if eq $author "A. del Valle" -}}
+      <span class="author-self">{{ $author }}</span>
+      {{- else if eq $author "A. Del Valle" -}}
+      <span class="author-self">{{ $author }}</span>
+      {{- else -}}
+      {{ $author }}
+      {{- end -}}
+      {{ end }}
+    </p>
+
+    {{ if eq .Params.status "working_paper" }}
+    <p class="publication-status">
+      <span class="status-badge status-badge--working">Working Paper</span>
+      <span class="status-year">{{ .Params.year }}</span>
+    </p>
+    {{ else if eq .Params.status "forthcoming" }}
+    <p class="publication-status">
+      <span class="status-badge status-badge--forthcoming">Forthcoming</span>
+      <span class="journal-name">{{ .Params.journal }}</span>
+    </p>
+    {{ else }}
+    <p class="publication-journal">
+      <span class="journal-name">{{ .Params.journal }}</span>{{ with .Params.volume }}, {{ . }}{{ end }}{{ with .Params.pages }}, {{ . }}{{ end }} ({{ .Params.year }})
+    </p>
+    {{ end }}
+
+    <div class="publication-links">
+      {{ with .Params.paper_url }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="pub-link pub-link--primary">
+        Paper
+      </a>
+      {{ end }}
+      {{ with .Params.preprint_url }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="pub-link pub-link--secondary">
+        Working Paper
+      </a>
+      {{ end }}
+      {{ with .Params.pdf_url }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="pub-link pub-link--secondary">
+        PDF
+      </a>
+      {{ end }}
+      <button class="pub-link pub-link--cite"
+              data-cite-trigger
+              data-title="{{ .Title }}"
+              data-authors="{{ delimit .Params.authors ", " }}"
+              data-journal="{{ .Params.journal }}"
+              data-year="{{ .Params.year }}"
+              data-volume="{{ .Params.volume }}"
+              data-pages="{{ .Params.pages }}"
+              data-doi="{{ .Params.doi }}"
+              data-url="{{ .Params.paper_url }}"
+              data-bibtex-key="{{ .File.ContentBaseName }}">
+        Cite
+      </button>
+    </div>
+
+    {{ with .Params.finding }}
+    <div class="key-finding">
+      <span class="key-finding-icon">→</span>
+      <p class="key-finding-text">{{ . | safeHTML }}</p>
+    </div>
+    {{ end }}
+
+    {{ with .Params.abstract }}
+    <div class="publication-abstract">
+      <button class="abstract-toggle" aria-expanded="false" aria-controls="abstract-{{ $.File.ContentBaseName }}">
+        <span class="abstract-toggle-icon">+</span>
+        <span>Abstract</span>
+      </button>
+      <div id="abstract-{{ $.File.ContentBaseName }}" class="abstract-content" aria-hidden="true">
+        <p>{{ . | safeHTML }}</p>
+      </div>
+    </div>
+    {{ end }}
+
+    {{ with .Params.media }}
+    <div class="publication-media">
+      <p class="media-label">Media Coverage</p>
+      <div class="media-list">
+        {{ range . }}
+        {{ if .url }}
+        <a href="{{ .url }}" target="_blank" rel="noopener" class="media-link">{{ .name }}</a>
+        {{ else }}
+        <span class="media-link">{{ .name }}</span>
+        {{ end }}
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+
+    {{/* Audio Listen */}}
+    {{ if or .Params.audio_en .Params.audio_es }}
+    <div class="publication-audio">
+      <p class="audio-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="audio-icon">
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+        </svg>
+        Listen
+      </p>
+      <div class="audio-players">
+        {{ with .Params.audio_en }}
+        <div class="audio-player-wrapper">
+          <span class="audio-lang">English</span>
+          <audio controls preload="metadata" class="audio-player">
+            <source src="/audio/{{ . }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        {{ end }}
+        {{ with .Params.audio_es }}
+        <div class="audio-player-wrapper">
+          <span class="audio-lang">Español</span>
+          <audio controls preload="metadata" class="audio-player">
+            <source src="/audio/{{ . }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</article>

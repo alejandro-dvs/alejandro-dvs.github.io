@@ -1,0 +1,33 @@
+{{ define "main" }}
+<section class="page-section publications-section">
+  <div class="section-inner">
+    <header class="section-header">
+      <h1 class="section-title">Research</h1>
+      <p class="section-subtitle">Publications on environmental risks, natural disasters, and climate adaptation</p>
+    </header>
+
+    <div class="publications-list">
+      {{/* Group publications by year - sort descending */}}
+      {{ $sorted := sort .Pages ".Params.year" "desc" }}
+      {{ $years := slice }}
+      {{ range $sorted }}
+        {{ if not (in $years .Params.year) }}
+          {{ $years = $years | append .Params.year }}
+        {{ end }}
+      {{ end }}
+
+      {{ range $year := $years }}
+      <div class="publication-year-group">
+        <div class="publication-year">{{ $year }}</div>
+        <div class="publication-year-papers">
+          {{ $pubs := where $.Pages ".Params.year" $year }}
+          {{ range $pubs }}
+          {{ partial "publication-card.html" . }}
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
