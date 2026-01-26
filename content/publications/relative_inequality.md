@@ -15,5 +15,6 @@ topics:
   - Natural Disasters
   - Climate Adaptation
 finding: "Using satellite imagery, we map neighborhood asset inequality and develop a method to aggregate it to any policy-relevant geography. Applying this approach, we find that the Northern Border Free Zone reduced inequality, while extreme weather increased it."
-
+audio_en: "relative_inequality_eng.mp3"
+audio_es: "relative_inequality_es.mp3"
 ---
