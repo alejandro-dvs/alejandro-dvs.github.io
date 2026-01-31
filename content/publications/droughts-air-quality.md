@@ -9,7 +9,7 @@ year: 2025
 volume: "16"
 pages: "4774"
 paper_url: "https://rdcu.be/enbyM"
-preprint_url: "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099820105082429936/idu18cc12fba1a38b14bb118e9a1fb6ea32b67cf"
+preprint_url: "https://documents1.worldbank.org/curated/en/099200305032441685/pdf/IDU18158e2681ceeb14d7b1a4c119eb690ffe169.pdf"
 abstract: "Fine particulate matter (PM2.5) is a leading environmental cause of mortality. Droughts can worsen air quality in regions that rely on hydropower by shifting energy production to combustion power plants. This study quantifies drought-induced excess PM<sub>2.5</sub> in Latin America and the Caribbean, where over 443 million people live within 50 km of a combustion power plant. Leveraging a monthly plant-level panel spanning 20 years, we link hydrological droughts, measured as negative runoff anomalies in hydropower watersheds, to changes in PM<sub>2.5</sub> concentrations near combustion power plants. Our analysis reveals that these droughts lead to an average increase of 0.83 μg m<sup>-3</sup>  in PM<sub>2.5</sub> levels. Counterfactual simulations for the region reveal that this excess PM<sub>2.5</sub> results in up to 10,000 premature deaths annually. Combining our estimates with climate, demographic, and combustion power plant phase-out projections, we demonstrate that this health burden will persist over the next four decades without targeted interventions."
 image_sequence:
   - "droughts-sequence/hydro_shed_r_2020_1.jpeg"
