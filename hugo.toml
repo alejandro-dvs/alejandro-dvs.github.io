@@ -2,9 +2,14 @@ baseURL = "https://alejandro-dvs.github.io/"
 languageCode = "en-us"
 title = "Alejandro del Valle"
 theme = "academic-minimal"
+enableRobotsTXT = true
 
-# Disable default RSS, sitemap handled separately
 disableKinds = ["taxonomy", "term"]
+
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5
+  filename = "sitemap.xml"
 
 [params]
   description = "Development economist specializing in environmental risks, natural disasters, and climate adaptation"
@@ -37,7 +42,7 @@ disableKinds = ["taxonomy", "term"]
     lineNos = false
 
 [outputs]
-  home = ["HTML"]
+  home = ["HTML", "RSS"]
   section = ["HTML"]
 
 [menu]

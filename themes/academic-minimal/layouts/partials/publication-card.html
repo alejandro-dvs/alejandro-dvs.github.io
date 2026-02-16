@@ -1,3 +1,4 @@
+{{ partial "schema-article.html" . }}
 <article class="publication-card{{ if and (not .Params.image) (not .Params.image_sequence) }} no-image{{ end }}">
   {{ if .Params.image_sequence }}
   <div class="publication-figure publication-slideshow" style="--slide-count: {{ len .Params.image_sequence }};">

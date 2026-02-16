@@ -1,0 +1,30 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ .Site.Params.author }}",
+  "url": "{{ .Site.BaseURL }}",
+  "jobTitle": "{{ .Params.role | default "Associate Professor" }}",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Georgia State University",
+    "url": "https://www.gsu.edu"
+  },
+  "affiliation": {
+    "@type": "Organization",
+    "name": "J. Mack Robinson College of Business"
+  },
+  "description": "{{ .Site.Params.description }}",
+  "email": "{{ .Site.Params.email }}"
+  {{- with .Site.Params.google_scholar }},
+  "sameAs": [
+    "{{ . }}"
+    {{- with $.Site.Params.orcid }},"{{ . }}"{{ end }}
+    {{- with $.Site.Params.linkedin }},"{{ . }}"{{ end }}
+    {{- with $.Site.Params.github }},"{{ . }}"{{ end }}
+    {{- with $.Site.Params.bluesky }},"{{ . }}"{{ end }}
+    {{- with $.Site.Params.gsu_profile }},"{{ . }}"{{ end }}
+  ]
+  {{- end }}
+}
+</script>

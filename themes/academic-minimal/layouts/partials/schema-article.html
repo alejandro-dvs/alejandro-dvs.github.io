@@ -1,0 +1,27 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "{{ .Title }}",
+  "author": [
+    {{- $last := sub (len .Params.authors) 1 }}
+    {{- range $i, $a := .Params.authors }}
+    { "@type": "Person", "name": "{{ $a }}" }{{ if ne $i $last }},{{ end }}
+    {{- end }}
+  ],
+  "datePublished": "{{ .Params.year }}",
+  {{- with .Params.abstract }}
+  "description": {{ . | jsonify }},
+  {{- end }}
+  {{- with .Params.journal }}
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": {{ . | jsonify }}
+  },
+  {{- end }}
+  {{- with .Params.paper_url }}
+  "url": "{{ . }}",
+  {{- end }}
+  "mainEntityOfPage": "{{ .Permalink }}"
+}
+</script>

@@ -7,6 +7,7 @@
   <meta name="author" content="{{ .Site.Params.author }}">
 
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  <link rel="canonical" href="{{ .Permalink }}">
 
   <!-- Fonts: Crimson Pro (serif) + Libre Franklin (sans) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
