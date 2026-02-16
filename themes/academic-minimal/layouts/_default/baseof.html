@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <meta name="author" content="{{ .Site.Params.author }}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://alejandro-dvs.goatcounter.com; media-src 'self';">
 
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
   <link rel="canonical" href="{{ .Permalink }}">
@@ -12,7 +14,8 @@
   <!-- Fonts: Crimson Pro (serif) + Libre Franklin (sans) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Libre+Franklin:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Libre+Franklin:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 
   <!-- Styles -->
   {{ $styles := resources.Get "css/main.css" | minify | fingerprint }}
@@ -57,6 +60,7 @@
   <meta name="twitter:title" content="{{ .Title }}">
   <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   {{ with $ogImage }}<meta name="twitter:image" content="{{ . }}">{{ end }}
+  <meta property="og:site_name" content="{{ .Site.Title }}">
 </head>
 <body>
   <!-- Scroll Progress Bar -->
@@ -73,14 +77,14 @@
   {{ partial "footer.html" . }}
 
   <!-- Image Lightbox -->
-  <div class="lightbox-overlay" id="lightbox">
+  <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
     <button class="lightbox-close" aria-label="Close">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
     </button>
-    <img class="lightbox-image" id="lightbox-img" src="" alt="">
+    <img class="lightbox-image" id="lightbox-img" src="data:," alt="">
   </div>
 
   <!-- Citation Modal -->
@@ -97,16 +101,16 @@
     </div>
     <div class="cite-modal-body">
       <div class="cite-format-tabs" role="tablist">
-        <button class="cite-format-tab is-active" role="tab" aria-selected="true" data-format="bibtex">BibTeX</button>
-        <button class="cite-format-tab" role="tab" aria-selected="false" data-format="apa">APA</button>
-        <button class="cite-format-tab" role="tab" aria-selected="false" data-format="mla">MLA</button>
-        <button class="cite-format-tab" role="tab" aria-selected="false" data-format="chicago">Chicago</button>
+        <button class="cite-format-tab is-active" role="tab" aria-selected="true" aria-controls="cite-bibtex" id="tab-bibtex" data-format="bibtex">BibTeX</button>
+        <button class="cite-format-tab" role="tab" aria-selected="false" aria-controls="cite-apa" id="tab-apa" data-format="apa">APA</button>
+        <button class="cite-format-tab" role="tab" aria-selected="false" aria-controls="cite-mla" id="tab-mla" data-format="mla">MLA</button>
+        <button class="cite-format-tab" role="tab" aria-selected="false" aria-controls="cite-chicago" id="tab-chicago" data-format="chicago">Chicago</button>
       </div>
       <div class="cite-content">
-        <pre class="cite-text is-active" id="cite-bibtex"></pre>
-        <pre class="cite-text" id="cite-apa"></pre>
-        <pre class="cite-text" id="cite-mla"></pre>
-        <pre class="cite-text" id="cite-chicago"></pre>
+        <pre class="cite-text is-active" id="cite-bibtex" role="tabpanel" aria-labelledby="tab-bibtex"></pre>
+        <pre class="cite-text" id="cite-apa" role="tabpanel" aria-labelledby="tab-apa"></pre>
+        <pre class="cite-text" id="cite-mla" role="tabpanel" aria-labelledby="tab-mla"></pre>
+        <pre class="cite-text" id="cite-chicago" role="tabpanel" aria-labelledby="tab-chicago"></pre>
       </div>
       <button class="cite-copy-btn" id="cite-copy">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -148,6 +152,6 @@
 
   <!-- GoatCounter Analytics (privacy-friendly, no cookies) -->
   <script data-goatcounter="https://alejandro-dvs.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
+          async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

@@ -11,12 +11,12 @@
   ],
   "datePublished": "{{ .Params.year }}",
   {{- with .Params.abstract }}
-  "description": {{ . | jsonify }},
+  "description": "{{ . | plainify | htmlUnescape | replaceRE `\"` `\\\"` }}",
   {{- end }}
   {{- with .Params.journal }}
   "isPartOf": {
     "@type": "Periodical",
-    "name": {{ . | jsonify }}
+    "name": "{{ . }}"
   },
   {{- end }}
   {{- with .Params.paper_url }}

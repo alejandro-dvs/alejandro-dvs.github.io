@@ -6,7 +6,7 @@
       <p class="section-subtitle">Publications on environmental risks, natural disasters, and climate adaptation</p>
     </header>
 
-    <div class="publications-list">
+    <div class="publications-list publications-list--fullpage">
       {{/* Group publications by year - sort descending */}}
       {{ $sorted := sort .Pages ".Params.year" "desc" }}
       {{ $years := slice }}
@@ -18,7 +18,7 @@
 
       {{ range $year := $years }}
       <div class="publication-year-group">
-        <div class="publication-year">{{ $year }}</div>
+        <h2 class="publication-year">{{ $year }}</h2>
         <div class="publication-year-papers">
           {{ $pubs := where $.Pages ".Params.year" $year }}
           {{ range $pubs }}

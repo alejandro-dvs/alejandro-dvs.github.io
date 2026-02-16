@@ -17,11 +17,12 @@
   {{ else if .Params.image }}
     {{ $imgPath := printf "images/publications/%s" .Params.image }}
     {{ with resources.Get $imgPath }}
-      {{ $resized := .Resize "800x webp q85" }}
+      {{ $w400 := .Resize "400x webp q85" }}
+      {{ $w800 := .Resize "800x webp q85" }}
       {{ $fallback := .Resize "800x q85" }}
   <div class="publication-figure">
     <picture>
-      <source srcset="{{ $resized.RelPermalink }}" type="image/webp">
+      <source srcset="{{ $w400.RelPermalink }} 400w, {{ $w800.RelPermalink }} 800w" sizes="(max-width: 600px) 400px, 800px" type="image/webp">
       <img src="{{ $fallback.RelPermalink }}" alt="Figure from {{ $.Title }}" loading="lazy">
     </picture>
   </div>
@@ -94,7 +95,7 @@
     {{ with .Params.finding }}
     <div class="key-finding">
       <span class="key-finding-icon">→</span>
-      <p class="key-finding-text">{{ . | safeHTML }}</p>
+      <p class="key-finding-text">{{ . | markdownify }}</p>
     </div>
     {{ end }}
 
@@ -105,7 +106,7 @@
         <span>Abstract</span>
       </button>
       <div id="abstract-{{ $.File.ContentBaseName }}" class="abstract-content" aria-hidden="true">
-        <p>{{ . | safeHTML }}</p>
+        <p>{{ . | markdownify }}</p>
       </div>
     </div>
     {{ end }}

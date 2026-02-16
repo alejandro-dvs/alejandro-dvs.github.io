@@ -91,6 +91,7 @@
     if (!modal || !overlay) return;
 
     let currentFormat = 'bibtex';
+    let citeTriggerElement = null;
 
     // Generate citations from paper data
     function generateCitations(data) {
@@ -226,6 +227,12 @@
       // Reset copy button
       copyBtn.classList.remove('copied');
       copyBtn.querySelector('span').textContent = 'Copy to clipboard';
+
+      // Restore focus to trigger element
+      if (citeTriggerElement) {
+        citeTriggerElement.focus();
+        citeTriggerElement = null;
+      }
     }
 
     function switchFormat(format) {
@@ -264,9 +271,25 @@
       }
     }
 
+    // Focus trap for modal
+    function trapFocus(e, container) {
+      const focusable = container.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
     // Event listeners
     triggers.forEach(trigger => {
       trigger.addEventListener('click', () => {
+        citeTriggerElement = trigger;
         const data = {
           title: trigger.dataset.title,
           authors: trigger.dataset.authors,
@@ -289,6 +312,9 @@
       if (e.key === 'Escape' && modal.classList.contains('is-open')) {
         closeModal();
       }
+      if (e.key === 'Tab' && modal.classList.contains('is-open')) {
+        trapFocus(e, modal);
+      }
     });
 
     tabs.forEach(tab => {
@@ -307,21 +333,29 @@
 
     if (!lightbox || !figures.length) return;
 
+    let lightboxTrigger = null;
+
     figures.forEach(figure => {
       const img = figure.querySelector('img');
       if (!img || img.src.includes('placeholder')) return;
 
       figure.addEventListener('click', () => {
+        lightboxTrigger = figure;
         lightboxImg.src = img.src;
         lightboxImg.alt = img.alt;
         lightbox.classList.add('is-open');
         document.body.style.overflow = 'hidden';
+        closeBtn?.focus();
       });
     });
 
     function closeLightbox() {
       lightbox.classList.remove('is-open');
       document.body.style.overflow = '';
+      if (lightboxTrigger) {
+        lightboxTrigger.focus();
+        lightboxTrigger = null;
+      }
     }
 
     closeBtn?.addEventListener('click', closeLightbox);
@@ -332,6 +366,11 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && lightbox.classList.contains('is-open')) {
         closeLightbox();
+      }
+      if (e.key === 'Tab' && lightbox.classList.contains('is-open')) {
+        // Only one focusable element (close button), keep focus there
+        e.preventDefault();
+        closeBtn?.focus();
       }
     });
   }
