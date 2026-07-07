@@ -2,7 +2,7 @@
 title: "The Short-Term Economic Impact of Tropical Cyclones: Satellite Evidence from Guangdong Province"
 authors:
   - A. Del Valle
-  - R. Elliot
+  - R. Elliott
   - E. Strobl
   - M. Tong
 journal: "Economics of Disasters and Climate Change"
