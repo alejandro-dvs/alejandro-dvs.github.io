@@ -136,12 +136,15 @@
         </svg>
         Listen
       </p>
+      {{/* A <source> whose type does not match the file is skipped by the
+           browser, so derive it from the extension rather than assuming mp3. */}}
+      {{ $mime := dict "mp3" "audio/mpeg" "m4a" "audio/mp4" "ogg" "audio/ogg" "wav" "audio/wav" }}
       <div class="audio-players">
         {{ with .Params.audio_en }}
         <div class="audio-player-wrapper">
           <span class="audio-lang">English</span>
           <audio controls preload="metadata" class="audio-player">
-            <source src="/audio/{{ . }}" type="audio/mpeg">
+            <source src="/audio/{{ . }}" type="{{ index $mime (path.Ext . | strings.TrimPrefix ".") | default "audio/mpeg" }}">
             Your browser does not support the audio element.
           </audio>
         </div>
@@ -150,7 +153,7 @@
         <div class="audio-player-wrapper">
           <span class="audio-lang">Español</span>
           <audio controls preload="metadata" class="audio-player">
-            <source src="/audio/{{ . }}" type="audio/mpeg">
+            <source src="/audio/{{ . }}" type="{{ index $mime (path.Ext . | strings.TrimPrefix ".") | default "audio/mpeg" }}">
             Your browser does not support the audio element.
           </audio>
         </div>
