@@ -86,7 +86,12 @@
     </header>
 
     <div class="publications-list" id="publications-list">
+      {{/* Order is curated via the `weight` field in each publication's front
+           matter: lead publication first, then working papers, then the back
+           catalogue by year. Sorting explicitly because Hugo's implicit default
+           falls back to title order, which buried the newest paper last. */}}
       {{ $featured := where (where .Site.RegularPages "Section" "publications") ".Params.featured" true }}
+      {{ $featured = sort $featured ".Params.weight" }}
       {{ range $featured }}
       <div class="publication-wrapper" data-topics="{{ range .Params.topics }}{{ . | urlize }},{{ end }}">
         {{ partial "publication-card.html" . }}

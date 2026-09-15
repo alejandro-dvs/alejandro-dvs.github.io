@@ -1,12 +1,13 @@
 ---
 title: "Mangroves Protect Coastal Economic Activity from Hurricanes"
 authors:
-  - A. Del Valle
+  - A. del Valle
   - M. Eriksson
   - O. A. Ishizawa
   - J. J. Miranda
 journal: "Proceedings of the National Academy of Sciences"
 year: 2020
+weight: 7
 volume: "117(1)"
 pages: "265-270"
 paper_url: "https://www.pnas.org/content/117/1/265"

@@ -4,6 +4,7 @@ authors:
   - A. del Valle
 journal: "American Economic Journal: Economic Policy"
 year: 2024
+weight: 4
 volume: "16(2)"
 pages: "442-479"
 paper_url: "https://www.aeaweb.org/articles?id=10.1257/pol.20220066"

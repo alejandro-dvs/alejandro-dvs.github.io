@@ -6,6 +6,7 @@ authors:
   - S. Shore
 journal: "Journal of Financial and Quantitative Analysis"
 year: 2024
+weight: 5
 volume: "59(5)"
 pages: "2459-2485"
 paper_url: "https://doi.org/10.1017/S0022109023000728"

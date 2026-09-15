@@ -6,6 +6,7 @@ authors:
   - A. de la Fuente
 journal: "Nature Communications"
 year: 2025
+weight: 1
 volume: "16"
 pages: "4774"
 paper_url: "https://rdcu.be/enbyM"

@@ -1,12 +1,13 @@
 ---
 title: "The Short-Term Economic Impact of Tropical Cyclones: Satellite Evidence from Guangdong Province"
 authors:
-  - A. Del Valle
+  - A. del Valle
   - R. Elliott
   - E. Strobl
   - M. Tong
 journal: "Economics of Disasters and Climate Change"
 year: 2018
+weight: 9
 volume: "2(3)"
 pages: "225-235"
 paper_url: "https://link.springer.com/article/10.1007/s41885-018-0028-3"

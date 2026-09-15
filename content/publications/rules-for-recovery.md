@@ -1,11 +1,12 @@
 ---
 title: "Rules for Recovery: Impact of Indexed Disaster Funds on Shock Coping in Mexico"
 authors:
-  - A. Del Valle
+  - A. del Valle
   - A. De Janvry
   - E. Sadoulet
 journal: "American Economic Journal: Applied Economics"
 year: 2020
+weight: 8
 volume: "12(4)"
 pages: "164-195"
 paper_url: "https://www.aeaweb.org/articles?id=10.1257/app.20190002"

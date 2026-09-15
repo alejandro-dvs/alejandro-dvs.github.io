@@ -1,9 +1,10 @@
 ---
 title: "The Effects of Public Health Insurance in Labor Markets with Informal Jobs: Evidence from Mexico"
 authors:
-  - A. Del Valle
+  - A. del Valle
 journal: "Journal of Health Economics"
 year: 2021
+weight: 6
 volume: "77(C)"
 pages: "102454"
 paper_url: "https://www.sciencedirect.com/science/article/abs/pii/S0167629621000394"
